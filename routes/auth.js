@@ -52,7 +52,7 @@ router.post('/guestLogin', async (req,res) => {
             var newUser = await createUser(user)
             if(newUser.length > 0) {
                 var loggedInUser = await getUser(user.email)
-                var token = genToken(loggedInUser[0])
+                var token = 'Bearer ' + genToken(loggedInUser[0])
                 res.status(200).send({token: token, user: loggedInUser[0]})
             }
         }
