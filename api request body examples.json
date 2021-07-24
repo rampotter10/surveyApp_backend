@@ -1,0 +1,51 @@
+
+
+// Survey Create Body
+
+{
+   "questions": [
+       "Question1",
+       "Question2",
+       "Question3"
+   ]
+}
+
+
+
+// Survey Response Body
+
+{
+   "responses": [
+       {"questionID": 6,
+        "creatorID": 1,
+        "response": "Yes"
+       },
+       {"questionID": 7,
+        "creatorID": 1,
+        "response": "Yes"
+       },
+       {"questionID": 8,
+        "creatorID": 1,
+        "response": "No"
+       },
+       {"questionID": 9,
+        "creatorID": 1,
+        "response": "No"
+       }
+   ]
+}
+
+
+// User Signup Body
+{
+    "email": "tes@test.com",
+    "name": "Test",
+    "password":"12345678"
+}
+
+
+// User Login Body
+{
+    "email": "test@test.com",
+    "password": "12345678"
+}
