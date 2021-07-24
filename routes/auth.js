@@ -45,7 +45,7 @@ router.post('/guestLogin', async (req,res) => {
     try {
         var foundUser = await getUser(user.email)
         if(foundUser[0] !== undefined) {
-            var token = genToken(foundUser[0])
+            var token = 'Bearer ' + genToken(foundUser[0])
             res.status(200).send({token: token, user: foundUser[0]})
         } else {
             delete user.password
