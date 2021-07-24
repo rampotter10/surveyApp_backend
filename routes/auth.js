@@ -16,9 +16,7 @@ router.post('/signup', async(req, res) => {
         }else {
             var salt = crypto.randomBytes(16).toString(`hex`)
             var hash = crypto.pbkdf2Sync(password, salt, 1000, 64, `sha512`).toString(`hex`)
-            user = {...user, salt: salt,hash: hash,
-                createdAt: new Date().toISOString()
-            }
+            user = {...user, salt: salt,hash: hash}
             const newUser = await createUser(user)
             res.status(201).send({msg: 'User created. You can login now.'})
         }
@@ -28,7 +26,7 @@ router.post('/signup', async(req, res) => {
     
 })
 
-router.post('/login', async (req,res) => {
+router.post('/userLogin', async (req,res) => {
     var email = req.body.email
     var password = req.body.password
 
@@ -42,8 +40,32 @@ router.post('/login', async (req,res) => {
     }
 })
 
+router.post('/guestLogin', async (req,res) => {
+    var user = req.body
+    try {
+        var foundUser = await getUser(user.email)
+        if(foundUser[0] !== undefined) {
+            var token = genToken(foundUser[0])
+            res.status(200).send({token: token, user: foundUser[0]})
+        } else {
+            delete user.password
+            var newUser = await createUser(user)
+            if(newUser.length > 0) {
+                var loggedInUser = await getUser(user.email)
+                var token = genToken(loggedInUser[0])
+                res.status(200).send({token: token, user: loggedInUser[0]})
+            }
+        }
+    } catch(err) {
+        console.log(err)
+        res.status(403).send({msg: 'Unauthorized', err: err})
+    }
+})
+
 function createUser(user) {
-    return db('users').insert(user)
+    const row = {...user, createdAt: new Date().toISOString()}
+    console.log(row)
+    return db('users').insert(row)
 }
 
 function getUser(email) {

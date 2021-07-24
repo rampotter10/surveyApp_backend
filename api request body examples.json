@@ -49,3 +49,11 @@
     "email": "test@test.com",
     "password": "12345678"
 }
+
+
+// Guest Login Body
+
+{
+    "email": "abc@abc.com",
+    "password": "12345678"   
+}
